@@ -41,9 +41,9 @@ if not image_path:
     exit()
 
 
-# text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
+text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
 
-text_prompt = "give me a webshop for 3D printers"
+# text_prompt = "give me a webshop for 3D printers"
 
 # Check if a text prompt was entered
 if not text_prompt:
