@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 import subprocess
 
@@ -14,10 +14,16 @@ app.add_middleware(
 )
 
 @app.post("/generate")
-async def generate():
-    # Run the Python script without any arguments
+async def generate(request: Request):
+    request_data = await request.json()
+    user_input = request_data.get("prompt")
+
+    if not user_input:
+        raise HTTPException(status_code=400, detail="Missing 'prompt' in request body")
+
+    # Run the Python script with the user-provided input
     result = subprocess.run(
-        ["python", r"C:\Users\matte\Desktop\standalonetest\websockets_api.py"],
+        ["python", r"C:\Users\matte\Desktop\standalonetest\websockets_api.py", user_input],
         capture_output=True,
         text=True
     )
