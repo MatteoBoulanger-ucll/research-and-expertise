@@ -16,27 +16,28 @@ const Home: React.FC = () => {
     }
   };
 
-
   return (
     <>
       <Head>
         <title>Microsite generator</title>
       </Head>
-      <main className='text-center mt-20 space-y-4 '>
-        <h1 className='text-6xl'>Microsite Generator</h1>
-          <button 
-            onClick={handlePromptSubmit} 
-            className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Generate a Microsite
-          </button>
+      <main className="flex flex-col justify-center items-center h-screen text-center space-y-4">
+        <h1 className="text-white text-3xl">Microsite Generator</h1>
+        <button 
+          onClick={handlePromptSubmit} 
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Generate a Microsite
+        </button>
+        <div className="text-red-500 text-3xl">Hello, Tailwind!</div>
+
       </main>
     </>
   );
 };
 
 export default Home;
+
 function setOutput(output: any) {
   throw new Error('Function not implemented.');
 }
-
