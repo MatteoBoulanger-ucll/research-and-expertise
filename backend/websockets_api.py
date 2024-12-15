@@ -47,7 +47,7 @@ if not image_path:
     exit()
 
 
-# text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
+text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
 
 text_prompt = sys.argv[1] if len(sys.argv) > 1 else "bananas"
 

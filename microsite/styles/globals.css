@@ -1,4 +1,9 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -39,4 +44,4 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */
