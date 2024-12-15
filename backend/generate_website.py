@@ -1,152 +1,85 @@
 import os
 
-# Specify file paths for text and images
-text_files = {
-    "header_text": "path/to/header_text.txt",
-    "about_text": "path/to/about_text.txt",
-    "footer_text": "path/to/footer_text.txt"
+# Path to the output folder where your content is stored
+output_folder = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\output\Research"
+
+# Folders and text files to check
+text_files = [
+    "Header_0001.txt",
+    "Hex_0001.txt",
+    "Products0001.txt",
+    "Promo_0001.txt",
+    "Recap_0001.txt"
+]
+
+image_folders = [
+    "Banner", "Logo", "Pallete", "Rndm", "Rndm2", "Rndm3", "Rndm4"
+]
+
+# Define image names for each folder
+image_names = {
+    "Banner": "Ban0001.png",
+    "Logo": "Log0001.png",
+    "Pallete": "Pal0001.png",
+    "Rndm": "Rndm0001.png",
+    "Rndm2": "Rndm0001.png",
+    "Rndm3": "Rndm0001.png",
+    "Rndm4": "Rndm0001.png",
 }
 
-image_mapping = {
-    "header_image": "path/to/header_image.jpg",
-    "about_image": "path/to/about_image.png",
-    "gallery_images": [
-        "path/to/gallery_image1.jpg",
-        "path/to/gallery_image2.jpg",
-        "path/to/gallery_image3.jpg"
-    ]
-}
+# Function to read text files and return the content
+def read_text_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read().strip()
+            return content if content else "misgenerated"  # Return "misgenerated" if empty
+    except FileNotFoundError:
+        return "misgenerated"  # Return "misgenerated" if the file is not found
 
-# Validate that text files exist
-for key, path in text_files.items():
-    if not os.path.exists(path):
-        print(f"Text file not found: {path}")
-        exit()
+# Function to get the first image file path from a folder
+def get_image_path(folder_name):
+    folder_path = os.path.join(output_folder, "Pictures", folder_name)
+    image_name = image_names.get(folder_name)
+    image_path = os.path.join(folder_path, image_name)
+    
+    # Check if the image exists and return the path, else return an empty string
+    if os.path.exists(image_path):
+        return image_path.replace(os.sep, "/")  # Replace backslashes with forward slashes for HTML
+    return "misgenerated"  # Return "misgenerated" if the image is not found
 
-# Read content from text files
-text_content = {key: open(path, "r").read().strip() for key, path in text_files.items()}
+# Function to generate the HTML content
+def generate_html():
+    html_content = "<html>\n<head>\n<title>Generated Microsite</title>\n</head>\n<body>\n"
+    html_content += "<h1>Generated Microsite</h1>\n"
+    
+    # Add text sections
+    for text_file in text_files:
+        text_path = os.path.join(output_folder, "text", text_file)
+        text_content = read_text_file(text_path)
+        html_content += f"<h2>{text_file.replace('_', ' ').replace('.txt', '')}</h2>\n"
+        html_content += f"<p>{text_content}</p>\n"
+    
+    # Add image sections
+    for folder_name in image_folders:
+        image_path = get_image_path(folder_name)
+        if image_path != "misgenerated":  # Only add image if the path is valid
+            image_tag = f'<img src="file:///{image_path}" alt="{folder_name}" width="300" />'
+            html_content += f"<h3>{folder_name}</h3>\n"
+            html_content += f"<p>{image_tag}</p>\n"
+        else:
+            html_content += f"<h3>{folder_name}</h3>\n"
+            html_content += f"<p>misgenerated</p>\n"
+    
+    html_content += "</body>\n</html>"
+    return html_content
 
-# Validate that the images exist
-for key, value in image_mapping.items():
-    if isinstance(value, list):
-        image_mapping[key] = [img for img in value if os.path.exists(img)]
-    elif os.path.exists(value):
-        continue
-    else:
-        print(f"File not found: {value}")
-        exit()
+# Path to save the generated HTML file
+html_output_path = os.path.join(output_folder, "generated_microsite.html")
 
-# HTML template with placeholders for text and images
-html_content = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Website</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        header img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        main {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-        .about-section img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px 0;
-        }
-        .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-        .image-gallery img {
-            max-width: 100%;
-            height: auto;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>{header_text}</h1>
-        {header_image}
-    </header>
-    <main>
-        <section class="about-section">
-            <h2>About Me</h2>
-            <p>{about_text}</p>
-            {about_image}
-        </section>
-        <section class="image-gallery">
-            <h2>Gallery</h2>
-            {gallery_images}
-        </section>
-    </main>
-    <footer>
-        <p>{footer_text}</p>
-    </footer>
-</body>
-</html>
-"""
+# Generate the HTML content and save it
+html_content = generate_html()
 
-# Generate specific <img> tags for images
-header_image_tag = f'<img src="{os.path.basename(image_mapping["header_image"])}" alt="Header Image">' if "header_image" in image_mapping else ""
-about_image_tag = f'<img src="{os.path.basename(image_mapping["about_image"])}" alt="About Image">' if "about_image" in image_mapping else ""
-gallery_image_tags = "\n".join([f'<img src="{os.path.basename(img)}" alt="Gallery Image">' for img in image_mapping["gallery_images"]]) if "gallery_images" in image_mapping else ""
-
-# Replace placeholders in the HTML template with text and image data
-html_content = html_content.format(
-    header_text=text_content["header_text"],
-    about_text=text_content["about_text"],
-    footer_text=text_content["footer_text"],
-    header_image=header_image_tag,
-    about_image=about_image_tag,
-    gallery_images=gallery_image_tags
-)
-
-# Save images and HTML file to an output directory
-output_dir = "dynamic_website"
-os.makedirs(output_dir, exist_ok=True)
-
-# Copy images to the output directory
-all_images = [image_mapping["header_image"], image_mapping["about_image"]] + image_mapping["gallery_images"]
-for img in all_images:
-    os.system(f'cp "{img}" "{output_dir}"')
-
-# Save the HTML file
-file_name = os.path.join(output_dir, "index.html")
-with open(file_name, "w") as file:
+with open(html_output_path, 'w') as file:
     file.write(html_content)
 
-print(f"Dynamic website generated successfully! Open {file_name} in your browser.")
+print(f"Generated HTML file saved at: {html_output_path}")
