@@ -1,0 +1,1553 @@
+{
+  "1": {
+    "inputs": {
+      "prompt": [
+        "124",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "9": {
+    "inputs": {
+      "text": [
+        "195",
+        0
+      ],
+      "delimiter": "---"
+    },
+    "class_type": "CR Split String",
+    "_meta": {
+      "title": "🔤 CR Split String"
+    }
+  },
+  "11": {
+    "inputs": {
+      "text": [
+        "199",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "12": {
+    "inputs": {
+      "ckpt_name": "v1-5-pruned.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "13": {
+    "inputs": {
+      "delimiter": ", ",
+      "clean_whitespace": "true",
+      "text_a": [
+        "14",
+        0
+      ],
+      "text_b": [
+        "46",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "14": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading, \n"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Extra positive prompt for samplers"
+    }
+  },
+  "15": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "dpmpp_2m_sde_gpu",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "11",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "16": {
+    "inputs": {
+      "text": "watermark, photo, realistic, text, nsfw, background",
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Negative prommpt"
+    }
+  },
+  "17": {
+    "inputs": {
+      "width": 512,
+      "height": 384,
+      "batch_size": 4
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "18": {
+    "inputs": {
+      "samples": [
+        "15",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "24": {
+    "inputs": {
+      "text": [
+        "197",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "25": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "14",
+        0
+      ],
+      "text_b": [
+        "50",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "26": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "24",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "27": {
+    "inputs": {
+      "samples": [
+        "26",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "30": {
+    "inputs": {
+      "text": [
+        "200",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "31": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "14",
+        0
+      ],
+      "text_b": [
+        "53",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "32": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "33": {
+    "inputs": {
+      "samples": [
+        "32",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "36": {
+    "inputs": {
+      "text": [
+        "202",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "37": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "14",
+        0
+      ],
+      "text_b": [
+        "56",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "38": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "36",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "39": {
+    "inputs": {
+      "samples": [
+        "38",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "46": {
+    "inputs": {
+      "prompt": [
+        "48",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "47": {
+    "inputs": {
+      "text": "Summarize the following text in a 10 keywords, seperated by \",\", Respond with a response in the format requested by the user. Do not include any other text or reasoning. ONLY include the response in the requested format.\n"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Instructions to reduce paragraph to keywords"
+    }
+  },
+  "48": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "47",
+        0
+      ],
+      "text_b": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "50": {
+    "inputs": {
+      "prompt": [
+        "51",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "51": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "47",
+        0
+      ],
+      "text_b": [
+        "9",
+        1
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "53": {
+    "inputs": {
+      "prompt": [
+        "54",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "54": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "47",
+        0
+      ],
+      "text_b": [
+        "9",
+        2
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "55": {
+    "inputs": {
+      "text": [
+        "53",
+        0
+      ]
+    },
+    "class_type": "ViewText",
+    "_meta": {
+      "title": "View Text"
+    }
+  },
+  "56": {
+    "inputs": {
+      "prompt": [
+        "119",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "57": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "67",
+        0
+      ],
+      "text_b": [
+        "195",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "59": {
+    "inputs": {
+      "text": [
+        "204",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "60": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "69",
+        0
+      ],
+      "text_b": [
+        "64",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "61": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "59",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "62": {
+    "inputs": {
+      "samples": [
+        "61",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "64": {
+    "inputs": {
+      "prompt": [
+        "57",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "66": {
+    "inputs": {
+      "width": 1536,
+      "height": 512,
+      "batch_size": 4
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "67": {
+    "inputs": {
+      "text": "Summarize the following text in a 10 keywords, seperated by \",\" to generate a banner image, Respond with a response in the format requested by the user. Do not include any other text or reasoning. ONLY include the response in the requested format.\n"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Text Multiline"
+    }
+  },
+  "69": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading, header image, website banner, \n"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Text Multiline"
+    }
+  },
+  "95": {
+    "inputs": {
+      "prompt": [
+        "97",
+        0
+      ],
+      "url": "127.0.0.1:11434",
+      "model": "llama3.2:latest"
+    },
+    "class_type": "OllamaGenerate",
+    "_meta": {
+      "title": "Isulion Ollama Generate"
+    }
+  },
+  "96": {
+    "inputs": {
+      "text": "Describe a logo that fits for the following text. ONLY include the response in the requested format."
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Prompt for logo"
+    }
+  },
+  "97": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "96",
+        0
+      ],
+      "text_b": [
+        "195",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "99": {
+    "inputs": {
+      "delimiter": ", ",
+      "clean_whitespace": "true",
+      "text_a": [
+        "118",
+        0
+      ],
+      "text_b": [
+        "209",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "100": {
+    "inputs": {
+      "text": [
+        "99",
+        0
+      ],
+      "clip": [
+        "12",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "101": {
+    "inputs": {
+      "seed": 0,
+      "steps": 33,
+      "cfg": 8,
+      "sampler_name": "dpmpp_2m_sde_gpu",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "186",
+        0
+      ],
+      "positive": [
+        "100",
+        0
+      ],
+      "negative": [
+        "16",
+        0
+      ],
+      "latent_image": [
+        "103",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "102": {
+    "inputs": {
+      "samples": [
+        "101",
+        0
+      ],
+      "vae": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "103": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 4
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "113": {
+    "inputs": {
+      "weight": 1,
+      "start_at": 0,
+      "end_at": 1,
+      "weight_type": "style transfer",
+      "model": [
+        "117",
+        0
+      ],
+      "ipadapter": [
+        "117",
+        1
+      ],
+      "image": [
+        "114",
+        0
+      ]
+    },
+    "class_type": "IPAdapter",
+    "_meta": {
+      "title": "IPAdapter"
+    }
+  },
+  "114": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Style image"
+    }
+  },
+  "117": {
+    "inputs": {
+      "preset": "VIT-G (medium strength)",
+      "model": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "IPAdapterUnifiedLoader",
+    "_meta": {
+      "title": "IPAdapter Unified Loader"
+    }
+  },
+  "118": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading, (white background:1.1), logo, company logo\n"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Text Multiline"
+    }
+  },
+  "119": {
+    "inputs": {
+      "delimiter": "",
+      "clean_whitespace": "true",
+      "text_a": [
+        "47",
+        0
+      ],
+      "text_b": [
+        "9",
+        3
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "123": {
+    "inputs": {
+      "text": "give me a webshop about 3D printers"
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Prompt"
+    }
+  },
+  "124": {
+    "inputs": {
+      "delimiter": ", ",
+      "clean_whitespace": "true",
+      "text_a": [
+        "123",
+        0
+      ],
+      "text_b": [
+        "126",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "126": {
+    "inputs": {
+      "text": "Seperate each paragraph with \"---\" BUT NOT THE AT THE BEGINNING\nONLY include the response in the requested format.\nALWAYS give 4 paragraphs."
+    },
+    "class_type": "Text Multiline",
+    "_meta": {
+      "title": "Text Multiline"
+    }
+  },
+  "130": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "62",
+        0
+      ],
+      "reference": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "131": {
+    "inputs": {
+      "colors": 8,
+      "mode": "Chart",
+      "image": [
+        "130",
+        0
+      ]
+    },
+    "class_type": "Image Color Palette",
+    "_meta": {
+      "title": "Image Color Palette"
+    }
+  },
+  "134": {
+    "inputs": {
+      "delimiter": "---",
+      "text_list": [
+        "131",
+        1
+      ]
+    },
+    "class_type": "Text List to Text",
+    "_meta": {
+      "title": "Text List to Text"
+    }
+  },
+  "141": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "39",
+        0
+      ],
+      "reference": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "146": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "33",
+        0
+      ],
+      "reference": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "148": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "27",
+        0
+      ],
+      "reference": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "149": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "18",
+        0
+      ],
+      "reference": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "186": {
+    "inputs": {
+      "boolean": [
+        "187",
+        0
+      ],
+      "on_true": [
+        "113",
+        0
+      ],
+      "on_false": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "Switch any [Crystools]",
+    "_meta": {
+      "title": "🪛 Switch any"
+    }
+  },
+  "187": {
+    "inputs": {
+      "value": true
+    },
+    "class_type": "easy boolean",
+    "_meta": {
+      "title": "Use style image"
+    }
+  },
+  "195": {
+    "inputs": {
+      "text": "This web shop specializes in 3D printing equipment and supplies, catering to both hobbyists and professional manufacturers. They offer a wide range of printers from top brands such as Monoprice, Prusa, and Creality, as well as a variety of filaments, resins, and other accessories.\n\n--- \n\nTheir customer service team is highly rated for their expertise and patience in helping customers navigate the complex world of 3D printing. They also offer a comprehensive support section on their website, featuring tutorials, FAQs, and troubleshooting guides to help users get the most out of their printers.\n\n--- \n\nOne of the unique features of this web shop is its community-driven approach to 3D printing. They host regular online forums and meetups for customers to share their projects and learn from one another. This creates a sense of belonging among customers, who can connect with like-minded individuals and get inspired by others' creations.\n\n--- \n\nIn addition to their products and services, this web shop also offers a range of educational resources and workshops. They partner with leading 3D printing companies to provide exclusive training programs and courses on advanced techniques such as model customization, material science, and post-processing methods.",
+      "anything": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "196": {
+    "inputs": {
+      "text": "HighlyRated,Expertise,Patiently,ComplexWorld,3DPrinting,CustomerService,SupportSection,Tutorials,FAQs,Printers",
+      "anything": [
+        "50",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "197": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading,HighlyRated,Expertise,Patiently,ComplexWorld,3DPrinting,CustomerService,SupportSection,Tutorials,FAQs,Printers",
+      "anything": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "198": {
+    "inputs": {
+      "text": "3DPrinting,Equipment,Supplies,Hobbyists,Manufacturers,Printers,Monoprice,Prusa,Creality",
+      "anything": [
+        "46",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "199": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading,, 3DPrinting,Equipment,Supplies,Hobbyists,Manufacturers,Printers,Monoprice,Prusa,Creality",
+      "anything": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "200": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading,Community, driven, 3D, printing, web, shop, forums, meetups, sharing, projects",
+      "anything": [
+        "31",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "201": {
+    "inputs": {
+      "text": "web shop, educational resources, workshops, product, services, training, 3D printing, partners, customization",
+      "anything": [
+        "56",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "202": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading,web shop, educational resources, workshops, product, services, training, 3D printing, partners, customization",
+      "anything": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "203": {
+    "inputs": {
+      "text": "3D Printing Equipment, Supplies, Monoprice, Prusa, Creality, Filaments, Resins, Accessories, Customer Service, Education",
+      "anything": [
+        "64",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "204": {
+    "inputs": {
+      "text": "vector art, illustration, clipart image, flat shading, header image, website banner,3D Printing Equipment, Supplies, Monoprice, Prusa, Creality, Filaments, Resins, Accessories, Customer Service, Education",
+      "anything": [
+        "60",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "205": {
+    "inputs": {
+      "text": "In addition to their products and services, this web shop also offers a range of educational resources and workshops. They partner with leading 3D printing companies to provide exclusive training programs and courses on advanced techniques such as model customization, material science, and post-processing methods.",
+      "anything": [
+        "9",
+        3
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "206": {
+    "inputs": {
+      "text": "One of the unique features of this web shop is its community-driven approach to 3D printing. They host regular online forums and meetups for customers to share their projects and learn from one another. This creates a sense of belonging among customers, who can connect with like-minded individuals and get inspired by others' creations.",
+      "anything": [
+        "9",
+        2
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "207": {
+    "inputs": {
+      "text": "Their customer service team is highly rated for their expertise and patience in helping customers navigate the complex world of 3D printing. They also offer a comprehensive support section on their website, featuring tutorials, FAQs, and troubleshooting guides to help users get the most out of their printers.",
+      "anything": [
+        "9",
+        1
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "208": {
+    "inputs": {
+      "text": "This web shop specializes in 3D printing equipment and supplies, catering to both hobbyists and professional manufacturers. They offer a wide range of printers from top brands such as Monoprice, Prusa, and Creality, as well as a variety of filaments, resins, and other accessories.",
+      "anything": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "209": {
+    "inputs": {
+      "text": "A stylized letter \"F\" made up of intersecting lines, forming a circle, symbolizing the connection between customers and the community. Inside the circle, a miniature 3D printer is embedded, representing the web shop's products and services. The lines that form the \"F\" are colored in different shades of blue, with the darker shade at the center, signifying expertise and support.",
+      "anything": [
+        "95",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "224": {
+    "inputs": {
+      "text": [
+        "206",
+        0
+      ],
+      "path": "ComfyUI/output/Research/text",
+      "filename_prefix": "Promo",
+      "filename_delimiter": "_",
+      "filename_number_padding": 4,
+      "file_extension": ".txt",
+      "encoding": "utf-8",
+      "filename_suffix": ""
+    },
+    "class_type": "Save Text File",
+    "_meta": {
+      "title": "Save Text File"
+    }
+  },
+  "226": {
+    "inputs": {
+      "text": [
+        "207",
+        0
+      ],
+      "path": "ComfyUI/output/Research/text",
+      "filename_prefix": "Recap",
+      "filename_delimiter": "_",
+      "filename_number_padding": 4,
+      "file_extension": ".txt",
+      "encoding": "utf-8",
+      "filename_suffix": ""
+    },
+    "class_type": "Save Text File",
+    "_meta": {
+      "title": "Save Text File"
+    }
+  },
+  "227": {
+    "inputs": {
+      "text": [
+        "205",
+        0
+      ],
+      "path": "ComfyUI/output/Research/text",
+      "filename_prefix": "Products",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "file_extension": ".txt",
+      "encoding": "utf-8",
+      "filename_suffix": ""
+    },
+    "class_type": "Save Text File",
+    "_meta": {
+      "title": "Save Text File"
+    }
+  },
+  "228": {
+    "inputs": {
+      "output_path": "Research/Pictures/Logo",
+      "filename_prefix": "Log",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "229": {
+    "inputs": {
+      "output_path": "Research/Pictures/Banner",
+      "filename_prefix": "Ban",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "130",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "230": {
+    "inputs": {
+      "output_path": "Research/Pictures/Rndm",
+      "filename_prefix": "Rndm",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "149",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "231": {
+    "inputs": {
+      "output_path": "Research/Pictures/Rndm2",
+      "filename_prefix": "Rndm",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "148",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "232": {
+    "inputs": {
+      "output_path": "Research/Pictures/Rndm3",
+      "filename_prefix": "Rndm",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "146",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "233": {
+    "inputs": {
+      "output_path": "Research/Pictures/Rndm4",
+      "filename_prefix": "Rndm",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "141",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "234": {
+    "inputs": {
+      "output_path": "Research/Pictures/Pallete",
+      "filename_prefix": "Pal",
+      "filename_delimiter": "",
+      "filename_number_padding": 4,
+      "filename_number_start": "false",
+      "extension": "png",
+      "dpi": 300,
+      "quality": 100,
+      "optimize_image": "true",
+      "lossless_webp": "false",
+      "overwrite_mode": "false",
+      "show_history": "false",
+      "show_history_by_prefix": "true",
+      "embed_workflow": "true",
+      "show_previews": "true",
+      "images": [
+        "131",
+        0
+      ]
+    },
+    "class_type": "Image Save",
+    "_meta": {
+      "title": "Image Save"
+    }
+  },
+  "235": {
+    "inputs": {
+      "text": "#fc9cdd\n#fdb1af\n#73e1ce\n#e0fe68\n#453dfe\n#c369fe\n#25c9fe\n#85aaf5---#e78de6\n#f6bfb1\n#82eed0\n#edfdab\n#2988fe\n#35a2fe\n#68aff8\n#c3a5fd---#ea9cc2\n#dccdd2\n#fef4a6\n#bdfea8\n#0177fe\n#4d98f7\n#d48dfe\n#6cdefd---#f6a6d4\n#acefb2\n#fdfe82\n#3c77fe\n#01befe\n#01d5fe\n#57cbeb\n#b59cf7",
+      "anything": [
+        "134",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "236": {
+    "inputs": {
+      "text": [
+        "235",
+        0
+      ],
+      "path": "ComfyUI/output/Research/text",
+      "filename_prefix": "Hex",
+      "filename_delimiter": "_",
+      "filename_number_padding": 4,
+      "file_extension": ".txt",
+      "encoding": "utf-8",
+      "filename_suffix": ""
+    },
+    "class_type": "Save Text File",
+    "_meta": {
+      "title": "Save Text File"
+    }
+  },
+  "237": {
+    "inputs": {
+      "text": [
+        "208",
+        0
+      ],
+      "path": "ComfyUI/output/Research/text",
+      "filename_prefix": "Header",
+      "filename_delimiter": "_",
+      "filename_number_padding": 4,
+      "file_extension": ".txt",
+      "encoding": "utf-8",
+      "filename_suffix": ""
+    },
+    "class_type": "Save Text File",
+    "_meta": {
+      "title": "Save Text File"
+    }
+  }
+}

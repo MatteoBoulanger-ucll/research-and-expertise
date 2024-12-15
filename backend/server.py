@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import subprocess
+from pydantic import BaseModel
+
+# Create a Pydantic model for the request body
+class GenerateRequest(BaseModel):
+    text_prompt: str  # Define a field for the text prompt
 
 app = FastAPI()
 
@@ -14,10 +19,13 @@ app.add_middleware(
 )
 
 @app.post("/generate")
-async def generate():
-    # Run the Python script without any arguments
+async def generate(request: GenerateRequest):  # Accept the request with the text prompt
+    # Get the text prompt from the request body
+    text_prompt = request.text_prompt
+    
+    # Pass the text_prompt to your backend script
     result = subprocess.run(
-        ["python", r"C:\Users\matte\Desktop\standalonetest\websockets_api.py"],
+        ["python", r"websockets_api.py", text_prompt],  # Pass the text prompt as an argument
         capture_output=True,
         text=True
     )

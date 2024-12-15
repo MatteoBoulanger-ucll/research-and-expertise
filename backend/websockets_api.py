@@ -13,6 +13,11 @@ import io
 import os
 import shutil
 
+import sys  # Import sys to get command-line arguments
+
+
+
+
 server_address = "127.0.0.1:8188"
 client_id = str(uuid.uuid4())
 
@@ -20,6 +25,7 @@ client_id = str(uuid.uuid4())
 root = Tk()
 root.withdraw()  
 image_path = filedialog.askopenfilename(title="Selecteer een afbeelding", filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
+
 
 
 def clear_output_folder(folder_path):
@@ -32,7 +38,7 @@ def clear_output_folder(folder_path):
         print(f"Created folder: {folder_path}")
 
 # Define your folder path
-output_folder = "./output/index/"
+output_folder = "C:/Users/Jornick/Documents/comf/ComfyUI_windows_portable/ComfyUI/output"
 clear_output_folder(output_folder)
 
 # Controleer of de gebruiker een afbeelding heeft geselecteerd
@@ -43,7 +49,7 @@ if not image_path:
 
 # text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
 
-text_prompt = "give me a webshop for 3D printers"
+text_prompt = sys.argv[1] if len(sys.argv) > 1 else "bananas"
 
 # Check if a text prompt was entered
 if not text_prompt:
@@ -95,7 +101,11 @@ def get_images(ws, prompt):
 
     return output_images
 
-with open(r'C:\Users\matte\Downloads\workflow_api.json', 'r') as file:
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+workflow_api_path = os.path.join(script_dir, 'workflow_api.json')
+
+with open(workflow_api_path, 'r') as file:
     prompt = json.load(file)
 
 
@@ -114,13 +124,5 @@ else:
 ws = websocket.WebSocket()
 ws.connect("ws://{}/ws?clientId={}".format(server_address, client_id))
 images = get_images(ws, prompt)
-ws.close() # for in case this example is used in an environment where it will be repeatedly called, like in a Gradio app. otherwise, you'll randomly receive connection timeouts
-#Commented out code to display the output images:
-
-for node_id in images:
-    for image_data in images[node_id]:
-        from PIL import Image
-        import io
-        image = Image.open(io.BytesIO(image_data))
-        image.show()
+ws.close() 
 
