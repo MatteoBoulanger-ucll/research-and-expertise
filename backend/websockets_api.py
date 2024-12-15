@@ -46,9 +46,6 @@ if not image_path:
     print("Geen afbeelding geselecteerd. Script wordt beëindigd.")
     exit()
 
-
-text_prompt = simpledialog.askstring("Input", "Voer een tekstprompt in:")
-
 text_prompt = sys.argv[1] if len(sys.argv) > 1 else "bananas"
 
 # Check if a text prompt was entered

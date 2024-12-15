@@ -28,7 +28,6 @@ const Home: React.FC = () => {
       <Head>
         <title>Microsite generator</title>
       </Head>
-      <Header />  {/* Add the Header component here */}
       <main className="text-center mt-20 space-y-4">
         <h1 className="text-6xl">Microsite Generator</h1>
 
