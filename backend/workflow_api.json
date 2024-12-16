@@ -5,12 +5,15 @@
         "124",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "9": {
@@ -394,12 +397,15 @@
         "48",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "47": {
@@ -435,12 +441,15 @@
         "51",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "51": {
@@ -467,12 +476,15 @@
         "54",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "54": {
@@ -511,12 +523,15 @@
         "119",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "57": {
@@ -623,12 +638,15 @@
         "57",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "66": {
@@ -666,12 +684,15 @@
         "97",
         0
       ],
+      "debug": "disable",
       "url": "127.0.0.1:11434",
-      "model": "llama3.2:latest"
+      "model": "llama3.2:latest",
+      "keep_alive": 5,
+      "format": "text"
     },
     "class_type": "OllamaGenerate",
     "_meta": {
-      "title": "Isulion Ollama Generate"
+      "title": "Ollama Generate"
     }
   },
   "96": {
@@ -868,7 +889,7 @@
   },
   "123": {
     "inputs": {
-      "text": "give me a webshop about 3D printers"
+      "text": "give me a webshop about computers"
     },
     "class_type": "Text Multiline",
     "_meta": {
@@ -895,7 +916,7 @@
   },
   "126": {
     "inputs": {
-      "text": "Seperate each paragraph with \"---\" BUT NOT THE AT THE BEGINNING\nONLY include the response in the requested format.\nALWAYS give 4 paragraphs."
+      "text": "Seperate each paragraph with \"---\" STARTING after the first paragraph.\nONLY include the response in the requested format.\nALWAYS give 4 paragraphs."
     },
     "class_type": "Text Multiline",
     "_meta": {
@@ -1060,7 +1081,7 @@
   },
   "195": {
     "inputs": {
-      "text": "This web shop specializes in 3D printing equipment and supplies, catering to both hobbyists and professional manufacturers. They offer a wide range of printers from top brands such as Monoprice, Prusa, and Creality, as well as a variety of filaments, resins, and other accessories.\n\n--- \n\nTheir customer service team is highly rated for their expertise and patience in helping customers navigate the complex world of 3D printing. They also offer a comprehensive support section on their website, featuring tutorials, FAQs, and troubleshooting guides to help users get the most out of their printers.\n\n--- \n\nOne of the unique features of this web shop is its community-driven approach to 3D printing. They host regular online forums and meetups for customers to share their projects and learn from one another. This creates a sense of belonging among customers, who can connect with like-minded individuals and get inspired by others' creations.\n\n--- \n\nIn addition to their products and services, this web shop also offers a range of educational resources and workshops. They partner with leading 3D printing companies to provide exclusive training programs and courses on advanced techniques such as model customization, material science, and post-processing methods.",
+      "text": "---PC Hub is an online retailer specializing in computer hardware and accessories. They offer a wide range of products from top brands such as Intel, NVIDIA, AMD, and more.\n\n---Their product selection includes everything from CPUs and GPUs to RAM, motherboards, and power supplies. Customers can also find laptops, desktops, and all-in-one computers, making PC Hub a one-stop shop for all their computer needs.\n\n---PC Hub's website features user-friendly navigation and in-depth product descriptions, making it easy for customers to find the perfect components for their builds or purchase pre-assembled systems. They also offer competitive pricing, free shipping on orders over $50, and a 30-day return policy.\n\n---With a strong focus on customer support, PC Hub's team is available to assist with any questions or concerns via phone, email, or live chat. They also offer exclusive discounts for students, military personnel, and loyalty program members, making them an attractive option for budget-conscious shoppers and loyal customers alike.",
       "anything": [
         "1",
         0
@@ -1073,7 +1094,7 @@
   },
   "196": {
     "inputs": {
-      "text": "HighlyRated,Expertise,Patiently,ComplexWorld,3DPrinting,CustomerService,SupportSection,Tutorials,FAQs,Printers",
+      "text": "PC, Hardware, Online, Retailer, Accessories, Computer, Brands, Intel, NVIDIA, AMD",
       "anything": [
         "50",
         0
@@ -1086,7 +1107,7 @@
   },
   "197": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading,HighlyRated,Expertise,Patiently,ComplexWorld,3DPrinting,CustomerService,SupportSection,Tutorials,FAQs,Printers",
+      "text": "vector art, illustration, clipart image, flat shading,PC, Hardware, Online, Retailer, Accessories, Computer, Brands, Intel, NVIDIA, AMD",
       "anything": [
         "25",
         0
@@ -1099,7 +1120,7 @@
   },
   "198": {
     "inputs": {
-      "text": "3DPrinting,Equipment,Supplies,Hobbyists,Manufacturers,Printers,Monoprice,Prusa,Creality",
+      "text": "Please provide the text you'd like me to summarize. I'll be happy to assist you once it's provided.",
       "anything": [
         "46",
         0
@@ -1112,7 +1133,7 @@
   },
   "199": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading,, 3DPrinting,Equipment,Supplies,Hobbyists,Manufacturers,Printers,Monoprice,Prusa,Creality",
+      "text": "vector art, illustration, clipart image, flat shading,, Please provide the text you'd like me to summarize. I'll be happy to assist you once it's provided.",
       "anything": [
         "13",
         0
@@ -1125,7 +1146,7 @@
   },
   "200": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading,Community, driven, 3D, printing, web, shop, forums, meetups, sharing, projects",
+      "text": "vector art, illustration, clipart image, flat shading,PCs,customers,GPU,CPU,RAM,motherboards,power supplies,laptops,desktops,computers",
       "anything": [
         "31",
         0
@@ -1138,7 +1159,7 @@
   },
   "201": {
     "inputs": {
-      "text": "web shop, educational resources, workshops, product, services, training, 3D printing, partners, customization",
+      "text": "PC, Hub, website, navigation, product, descriptions, competitive, pricing, shipping",
       "anything": [
         "56",
         0
@@ -1151,7 +1172,7 @@
   },
   "202": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading,web shop, educational resources, workshops, product, services, training, 3D printing, partners, customization",
+      "text": "vector art, illustration, clipart image, flat shading,PC, Hub, website, navigation, product, descriptions, competitive, pricing, shipping",
       "anything": [
         "37",
         0
@@ -1164,7 +1185,7 @@
   },
   "203": {
     "inputs": {
-      "text": "3D Printing Equipment, Supplies, Monoprice, Prusa, Creality, Filaments, Resins, Accessories, Customer Service, Education",
+      "text": "PC, Retailer, Computer, Hardware, Accessories, CPUs, GPUs, Motherboards, Power, Supplies",
       "anything": [
         "64",
         0
@@ -1177,7 +1198,7 @@
   },
   "204": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading, header image, website banner,3D Printing Equipment, Supplies, Monoprice, Prusa, Creality, Filaments, Resins, Accessories, Customer Service, Education",
+      "text": "vector art, illustration, clipart image, flat shading, header image, website banner,PC, Retailer, Computer, Hardware, Accessories, CPUs, GPUs, Motherboards, Power, Supplies",
       "anything": [
         "60",
         0
@@ -1190,7 +1211,7 @@
   },
   "205": {
     "inputs": {
-      "text": "In addition to their products and services, this web shop also offers a range of educational resources and workshops. They partner with leading 3D printing companies to provide exclusive training programs and courses on advanced techniques such as model customization, material science, and post-processing methods.",
+      "text": "PC Hub's website features user-friendly navigation and in-depth product descriptions, making it easy for customers to find the perfect components for their builds or purchase pre-assembled systems. They also offer competitive pricing, free shipping on orders over $50, and a 30-day return policy.",
       "anything": [
         "9",
         3
@@ -1203,7 +1224,7 @@
   },
   "206": {
     "inputs": {
-      "text": "One of the unique features of this web shop is its community-driven approach to 3D printing. They host regular online forums and meetups for customers to share their projects and learn from one another. This creates a sense of belonging among customers, who can connect with like-minded individuals and get inspired by others' creations.",
+      "text": "Their product selection includes everything from CPUs and GPUs to RAM, motherboards, and power supplies. Customers can also find laptops, desktops, and all-in-one computers, making PC Hub a one-stop shop for all their computer needs.",
       "anything": [
         "9",
         2
@@ -1216,7 +1237,7 @@
   },
   "207": {
     "inputs": {
-      "text": "Their customer service team is highly rated for their expertise and patience in helping customers navigate the complex world of 3D printing. They also offer a comprehensive support section on their website, featuring tutorials, FAQs, and troubleshooting guides to help users get the most out of their printers.",
+      "text": "PC Hub is an online retailer specializing in computer hardware and accessories. They offer a wide range of products from top brands such as Intel, NVIDIA, AMD, and more.",
       "anything": [
         "9",
         1
@@ -1229,7 +1250,7 @@
   },
   "208": {
     "inputs": {
-      "text": "This web shop specializes in 3D printing equipment and supplies, catering to both hobbyists and professional manufacturers. They offer a wide range of printers from top brands such as Monoprice, Prusa, and Creality, as well as a variety of filaments, resins, and other accessories.",
+      "text": "",
       "anything": [
         "9",
         0
@@ -1242,7 +1263,7 @@
   },
   "209": {
     "inputs": {
-      "text": "A stylized letter \"F\" made up of intersecting lines, forming a circle, symbolizing the connection between customers and the community. Inside the circle, a miniature 3D printer is embedded, representing the web shop's products and services. The lines that form the \"F\" are colored in different shades of blue, with the darker shade at the center, signifying expertise and support.",
+      "text": "A stylized letter \"P\" made up of interconnected gears, symbolizing the fusion of technology and customer satisfaction. The logo's color scheme features a dominant blue tone (#4567b7) with accents of bright green (#34C759), representing trust, innovation, and growth. The overall design is modern, sleek, and professional, conveying PC Hub's expertise in computer hardware and accessories.",
       "anything": [
         "95",
         0
@@ -1501,7 +1522,7 @@
   },
   "235": {
     "inputs": {
-      "text": "#fc9cdd\n#fdb1af\n#73e1ce\n#e0fe68\n#453dfe\n#c369fe\n#25c9fe\n#85aaf5---#e78de6\n#f6bfb1\n#82eed0\n#edfdab\n#2988fe\n#35a2fe\n#68aff8\n#c3a5fd---#ea9cc2\n#dccdd2\n#fef4a6\n#bdfea8\n#0177fe\n#4d98f7\n#d48dfe\n#6cdefd---#f6a6d4\n#acefb2\n#fdfe82\n#3c77fe\n#01befe\n#01d5fe\n#57cbeb\n#b59cf7",
+      "text": "#fcabd7\n#52dc95\n#e1f659\n#704ffe\n#bd62fe\n#36b1fe\n#21c2fc\n#8dade6---#fe96fc\n#fdbaa5\n#3debc8\n#c3fc9f\n#f0fe6b\n#5e95fe\n#57b3fc\n#c391fc---#f7b8ca\n#fdfd8a\n#b7fe85\n#2881fe\n#9a72fd\n#4ea6f8\n#e78efd\n#70dbf8---#feacbe\n#67e99c\n#c9f169\n#d4fe33\n#7181fe\n#01c8fe\n#54b8ec\n#b9a6de",
       "anything": [
         "134",
         0

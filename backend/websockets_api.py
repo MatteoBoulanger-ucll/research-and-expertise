@@ -53,6 +53,10 @@ if not text_prompt:
     print("Geen tekstprompt ingevoerd. Script wordt beëindigd.")
     exit()
 
+if not image_path or not os.path.isfile(image_path):
+    print("Invalid image file selected.")
+    exit()
+
 def queue_prompt(prompt):
     p = {"prompt": prompt, "client_id": client_id}
     data = json.dumps(p).encode('utf-8')
