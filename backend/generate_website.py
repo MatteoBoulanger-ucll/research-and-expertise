@@ -28,6 +28,8 @@ image_names = {
 }
 
 # Function to read text files and return the content
+
+
 def read_text_file(file_path):
     try:
         with open(file_path, 'r') as file:
@@ -36,42 +38,171 @@ def read_text_file(file_path):
     except FileNotFoundError:
         return "misgenerated"  # Return "misgenerated" if the file is not found
 
+
 # Function to get the first image file path from a folder
+
+
 def get_image_path(folder_name):
     folder_path = os.path.join(output_folder, "Pictures", folder_name)
     image_name = image_names.get(folder_name)
     image_path = os.path.join(folder_path, image_name)
-    
+
     # Check if the image exists and return the path, else return an empty string
     if os.path.exists(image_path):
-        return image_path.replace(os.sep, "/")  # Replace backslashes with forward slashes for HTML
+        # Replace backslashes with forward slashes for HTML
+        return image_path.replace(os.sep, "/")
     return "misgenerated"  # Return "misgenerated" if the image is not found
 
+
+# Function to extract colors from Hex_0001.txt
+
+
+def get_colors():
+    hex_file_path = os.path.join(output_folder, "text", "Hex_0001.txt")
+    hex_content = read_text_file(hex_file_path)
+
+    # Default colors if file is empty or missing
+    default_colors = {
+        "background": "#f4f4f4",
+        "text": "#333",
+        "header": "#007BFF",
+        "header_text": "#ffffff",
+        "footer": "#333",
+        "footer_text": "#ffffff"
+    }
+
+    if hex_content == "misgenerated":
+        return default_colors
+
+    try:
+        lines = hex_content.splitlines()
+        colors = {
+            "background": lines[0].strip(),
+            "text": lines[1].strip(),
+            "header": lines[2].strip(),
+            "header_text": lines[3].strip(),
+            "footer": lines[4].strip(),
+            "footer_text": lines[5].strip()
+        }
+        return colors
+    except IndexError:
+        return default_colors
+
+
 # Function to generate the HTML content
+
+
 def generate_html():
-    html_content = "<html>\n<head>\n<title>Generated Microsite</title>\n</head>\n<body>\n"
-    html_content += "<h1>Generated Microsite</h1>\n"
-    
+    colors = get_colors()
+
+    html_content = f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Generated Microsite</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 0;
+                padding: 0;
+                background-color: {colors['background']};
+                color: {colors['text']};
+            }}
+            header {{
+                background: {colors['header']};
+                color: {colors['header_text']};
+                padding: 20px 10px;
+                text-align: center;
+            }}
+            header h1 {{
+                margin: 0;
+                font-size: 2.5em;
+            }}
+            main {{
+                padding: 20px;
+                background-color: {colors['background']};
+            }}
+            section {{
+                padding: 20px;
+                margin: 10px auto;
+                background: #fff;
+                border-radius: 5px;
+                max-width: 800px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }}
+            section h2 {{
+                color: {colors['header']};
+            }}
+            .image-section {{
+                text-align: center;
+            }}
+            .image-section img {{
+                max-width: 100%;
+                height: auto;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }}
+            footer {{
+                text-align: center;
+                padding: 10px;
+                background: {colors['footer']};
+                color: {colors['footer_text']};
+                margin-top: 20px;
+            }}
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Generated Microsite</h1>
+        </header>
+        <main>
+    """
+
     # Add text sections
     for text_file in text_files:
         text_path = os.path.join(output_folder, "text", text_file)
         text_content = read_text_file(text_path)
-        html_content += f"<h2>{text_file.replace('_', ' ').replace('.txt', '')}</h2>\n"
-        html_content += f"<p>{text_content}</p>\n"
-    
+        html_content += f"""
+        <section>
+            <h2>{text_file.replace('_', ' ').replace('.txt', '')}</h2>
+            <p>{text_content}</p>
+        </section>
+        """
+
     # Add image sections
     for folder_name in image_folders:
         image_path = get_image_path(folder_name)
         if image_path != "misgenerated":  # Only add image if the path is valid
-            image_tag = f'<img src="file:///{image_path}" alt="{folder_name}" width="300" />'
-            html_content += f"<h3>{folder_name}</h3>\n"
-            html_content += f"<p>{image_tag}</p>\n"
+            html_content += f"""
+            <section class="image-section">
+                <h2>{folder_name}</h2>
+                <img src="file:///{image_path}" alt="{folder_name}" />
+            </section>
+            """
         else:
-            html_content += f"<h3>{folder_name}</h3>\n"
-            html_content += f"<p>misgenerated</p>\n"
-    
-    html_content += "</body>\n</html>"
+            html_content += f"""
+            <section>
+                <h2>{folder_name}</h2>
+                <p>misgenerated</p>
+            </section>
+            """
+
+    # Add footer
+    html_content += f"""
+        </main>
+        <footer>
+            <p>&copy; 2024 Generated Microsite. All Rights Reserved.</p>
+        </footer>
+    </body>
+    </html>
+    """
+
     return html_content
+
 
 # Path to save the generated HTML file
 html_output_path = os.path.join(output_folder, "generated_microsite.html")
