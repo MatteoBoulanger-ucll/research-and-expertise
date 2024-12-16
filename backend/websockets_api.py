@@ -81,10 +81,10 @@ with open(workflow_api_path, 'r') as file:
     prompt = json.load(file)
 
 # Set the image_path and text_prompt in the JSON
-if "114" in prompt:
-    prompt["114"]["inputs"]["image"] = image_path
+if "253" in prompt:
+    prompt["253"]["inputs"]["image"] = image_path
 else:
-    print("Key '114' not found in JSON structure.")
+    print("Key '253' not found in JSON structure.")
 
 if "123" in prompt:
     prompt["123"]["inputs"]["text"] = text_prompt

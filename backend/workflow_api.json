@@ -36,22 +36,13 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
       "title": "CLIP Text Encode (Prompt)"
-    }
-  },
-  "12": {
-    "inputs": {
-      "ckpt_name": "v1-5-pruned.safetensors"
-    },
-    "class_type": "CheckpointLoaderSimple",
-    "_meta": {
-      "title": "Load Checkpoint"
     }
   },
   "13": {
@@ -90,7 +81,7 @@
       "scheduler": "karras",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -98,7 +89,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -109,19 +100,6 @@
     "class_type": "KSampler",
     "_meta": {
       "title": "KSampler"
-    }
-  },
-  "16": {
-    "inputs": {
-      "text": "watermark, photo, realistic, text, nsfw, background",
-      "clip": [
-        "12",
-        1
-      ]
-    },
-    "class_type": "CLIPTextEncode",
-    "_meta": {
-      "title": "Negative prommpt"
     }
   },
   "17": {
@@ -142,7 +120,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -158,7 +136,7 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
@@ -194,7 +172,7 @@
       "scheduler": "normal",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -202,7 +180,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -222,7 +200,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -238,7 +216,7 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
@@ -274,7 +252,7 @@
       "scheduler": "normal",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -282,7 +260,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -302,7 +280,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -318,7 +296,7 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
@@ -354,7 +332,7 @@
       "scheduler": "normal",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -362,7 +340,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -382,7 +360,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -559,7 +537,7 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
@@ -595,7 +573,7 @@
       "scheduler": "normal",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -603,7 +581,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -623,7 +601,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -747,7 +725,7 @@
         0
       ],
       "clip": [
-        "12",
+        "242",
         1
       ]
     },
@@ -765,7 +743,7 @@
       "scheduler": "karras",
       "denoise": 1,
       "model": [
-        "186",
+        "245",
         0
       ],
       "positive": [
@@ -773,7 +751,7 @@
         0
       ],
       "negative": [
-        "16",
+        "247",
         0
       ],
       "latent_image": [
@@ -793,7 +771,7 @@
         0
       ],
       "vae": [
-        "12",
+        "242",
         2
       ]
     },
@@ -811,53 +789,6 @@
     "class_type": "EmptyLatentImage",
     "_meta": {
       "title": "Empty Latent Image"
-    }
-  },
-  "113": {
-    "inputs": {
-      "weight": 1,
-      "start_at": 0,
-      "end_at": 1,
-      "weight_type": "style transfer",
-      "model": [
-        "117",
-        0
-      ],
-      "ipadapter": [
-        "117",
-        1
-      ],
-      "image": [
-        "114",
-        0
-      ]
-    },
-    "class_type": "IPAdapter",
-    "_meta": {
-      "title": "IPAdapter"
-    }
-  },
-  "114": {
-    "inputs": {
-      "image": "example.png",
-      "upload": "image"
-    },
-    "class_type": "LoadImage",
-    "_meta": {
-      "title": "Style image"
-    }
-  },
-  "117": {
-    "inputs": {
-      "preset": "VIT-G (medium strength)",
-      "model": [
-        "12",
-        0
-      ]
-    },
-    "class_type": "IPAdapterUnifiedLoader",
-    "_meta": {
-      "title": "IPAdapter Unified Loader"
     }
   },
   "118": {
@@ -889,7 +820,7 @@
   },
   "123": {
     "inputs": {
-      "text": "give me a webshop about computers"
+      "text": "give me a webshop about 3d printers"
     },
     "class_type": "Text Multiline",
     "_meta": {
@@ -1050,26 +981,6 @@
       "title": "🔧 Image Color Match"
     }
   },
-  "186": {
-    "inputs": {
-      "boolean": [
-        "187",
-        0
-      ],
-      "on_true": [
-        "113",
-        0
-      ],
-      "on_false": [
-        "12",
-        0
-      ]
-    },
-    "class_type": "Switch any [Crystools]",
-    "_meta": {
-      "title": "🪛 Switch any"
-    }
-  },
   "187": {
     "inputs": {
       "value": true
@@ -1081,7 +992,7 @@
   },
   "195": {
     "inputs": {
-      "text": "---PC Hub is an online retailer specializing in computer hardware and accessories. They offer a wide range of products from top brands such as Intel, NVIDIA, AMD, and more.\n\n---Their product selection includes everything from CPUs and GPUs to RAM, motherboards, and power supplies. Customers can also find laptops, desktops, and all-in-one computers, making PC Hub a one-stop shop for all their computer needs.\n\n---PC Hub's website features user-friendly navigation and in-depth product descriptions, making it easy for customers to find the perfect components for their builds or purchase pre-assembled systems. They also offer competitive pricing, free shipping on orders over $50, and a 30-day return policy.\n\n---With a strong focus on customer support, PC Hub's team is available to assist with any questions or concerns via phone, email, or live chat. They also offer exclusive discounts for students, military personnel, and loyalty program members, making them an attractive option for budget-conscious shoppers and loyal customers alike.",
+      "text": "Welcome to 3D Printing Pro, your one-stop shop for all your 3D printing needs! We specialize in providing high-quality 3D printers and accessories from top brands like Monoprice, Prusa, and FlashForge. Our mission is to help you take your 3D printing skills to the next level with our extensive range of products.\n\n--- \n\nOur collection includes 3D printer kits, pre-assembled machines, and a variety of accessories such as filaments, extruders, and hotends. We also offer a range of tools and materials for hobbyists and professionals alike. Whether you're looking to start your first 3D printing project or upgrade your existing machine, we've got you covered.\n\n--- \n\nAt 3D Printing Pro, we understand the importance of customer support. That's why we offer a comprehensive warranty on all our products, as well as dedicated customer service and technical support. Our team of experts is always available to answer any questions you may have about your 3D printer or provide troubleshooting assistance.\n\n--- \n\nWe're proud to offer competitive pricing and fast shipping on all our products. Order now and take advantage of our exclusive discounts and promotions. Visit our website today to explore our collection and discover the world of 3D printing!",
       "anything": [
         "1",
         0
@@ -1185,7 +1096,7 @@
   },
   "203": {
     "inputs": {
-      "text": "PC, Retailer, Computer, Hardware, Accessories, CPUs, GPUs, Motherboards, Power, Supplies",
+      "text": "High Quality 3D Printers, Monoprice, Prusa, FlashForge, Filaments, Extruders, Hotends, Hobbyists, Professionals, Customer Support",
       "anything": [
         "64",
         0
@@ -1198,7 +1109,7 @@
   },
   "204": {
     "inputs": {
-      "text": "vector art, illustration, clipart image, flat shading, header image, website banner,PC, Retailer, Computer, Hardware, Accessories, CPUs, GPUs, Motherboards, Power, Supplies",
+      "text": "vector art, illustration, clipart image, flat shading, header image, website banner,High Quality 3D Printers, Monoprice, Prusa, FlashForge, Filaments, Extruders, Hotends, Hobbyists, Professionals, Customer Support",
       "anything": [
         "60",
         0
@@ -1211,7 +1122,7 @@
   },
   "205": {
     "inputs": {
-      "text": "PC Hub's website features user-friendly navigation and in-depth product descriptions, making it easy for customers to find the perfect components for their builds or purchase pre-assembled systems. They also offer competitive pricing, free shipping on orders over $50, and a 30-day return policy.",
+      "text": "We're proud to offer competitive pricing and fast shipping on all our products. Order now and take advantage of our exclusive discounts and promotions. Visit our website today to explore our collection and discover the world of 3D printing!",
       "anything": [
         "9",
         3
@@ -1224,7 +1135,7 @@
   },
   "206": {
     "inputs": {
-      "text": "Their product selection includes everything from CPUs and GPUs to RAM, motherboards, and power supplies. Customers can also find laptops, desktops, and all-in-one computers, making PC Hub a one-stop shop for all their computer needs.",
+      "text": "At 3D Printing Pro, we understand the importance of customer support. That's why we offer a comprehensive warranty on all our products, as well as dedicated customer service and technical support. Our team of experts is always available to answer any questions you may have about your 3D printer or provide troubleshooting assistance.",
       "anything": [
         "9",
         2
@@ -1237,7 +1148,7 @@
   },
   "207": {
     "inputs": {
-      "text": "PC Hub is an online retailer specializing in computer hardware and accessories. They offer a wide range of products from top brands such as Intel, NVIDIA, AMD, and more.",
+      "text": "Our collection includes 3D printer kits, pre-assembled machines, and a variety of accessories such as filaments, extruders, and hotends. We also offer a range of tools and materials for hobbyists and professionals alike. Whether you're looking to start your first 3D printing project or upgrade your existing machine, we've got you covered.",
       "anything": [
         "9",
         1
@@ -1250,7 +1161,7 @@
   },
   "208": {
     "inputs": {
-      "text": "",
+      "text": "Welcome to 3D Printing Pro, your one-stop shop for all your 3D printing needs! We specialize in providing high-quality 3D printers and accessories from top brands like Monoprice, Prusa, and FlashForge. Our mission is to help you take your 3D printing skills to the next level with our extensive range of products.",
       "anything": [
         "9",
         0
@@ -1263,7 +1174,7 @@
   },
   "209": {
     "inputs": {
-      "text": "A stylized letter \"P\" made up of interconnected gears, symbolizing the fusion of technology and customer satisfaction. The logo's color scheme features a dominant blue tone (#4567b7) with accents of bright green (#34C759), representing trust, innovation, and growth. The overall design is modern, sleek, and professional, conveying PC Hub's expertise in computer hardware and accessories.",
+      "text": "A stylized, futuristic letter \"P\" made up of interconnected gears or 3D printed components, with a minimalist color scheme featuring shades of blue and white, conveying innovation, precision, and cutting-edge technology. The logo would be simple yet bold, incorporating a subtle nod to the 3D printing theme.",
       "anything": [
         "95",
         0
@@ -1346,7 +1257,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "102",
@@ -1373,7 +1284,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "130",
@@ -1400,7 +1311,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "149",
@@ -1427,7 +1338,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "148",
@@ -1454,7 +1365,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "146",
@@ -1481,7 +1392,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "141",
@@ -1508,7 +1419,7 @@
       "overwrite_mode": "false",
       "show_history": "false",
       "show_history_by_prefix": "true",
-      "embed_workflow": "true",
+      "embed_workflow": "false",
       "show_previews": "true",
       "images": [
         "131",
@@ -1569,6 +1480,95 @@
     "class_type": "Save Text File",
     "_meta": {
       "title": "Save Text File"
+    }
+  },
+  "241": {
+    "inputs": {
+      "image": "blakka.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "242": {
+    "inputs": {
+      "ckpt_name": "v1-5-pruned.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "243": {
+    "inputs": {
+      "preset": "VIT-G (medium strength)",
+      "model": [
+        "242",
+        0
+      ]
+    },
+    "class_type": "IPAdapterUnifiedLoader",
+    "_meta": {
+      "title": "IPAdapter Unified Loader"
+    }
+  },
+  "244": {
+    "inputs": {
+      "weight": 1,
+      "start_at": 0,
+      "end_at": 1,
+      "weight_type": "standard",
+      "model": [
+        "243",
+        0
+      ],
+      "ipadapter": [
+        "243",
+        1
+      ],
+      "image": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "IPAdapter",
+    "_meta": {
+      "title": "IPAdapter"
+    }
+  },
+  "245": {
+    "inputs": {
+      "boolean": [
+        "187",
+        0
+      ],
+      "on_true": [
+        "244",
+        0
+      ],
+      "on_false": [
+        "242",
+        0
+      ]
+    },
+    "class_type": "Switch any [Crystools]",
+    "_meta": {
+      "title": "🪛 Switch any"
+    }
+  },
+  "247": {
+    "inputs": {
+      "text": "watermark, photo, realistic, text, nsfw, background",
+      "clip": [
+        "242",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
     }
   }
 }
