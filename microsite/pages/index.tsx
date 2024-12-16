@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-const Home = () => {
+const Home: React.FC = () => {
   const [textPrompt, setTextPrompt] = useState('');
-  const [message, setMessage] = useState(''); // State to display the message
-  const [loading, setLoading] = useState(false); // State to show a loading spinner
-  const [progress, setProgress] = useState(0); // State for progress bar percentage
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleTextInputChange = (e: any) => {
+  const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextPrompt(e.target.value);
+  };
+
+  const handleFileSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    } else {
+      setSelectedFile(null);
+    }
   };
 
   const handlePromptSubmit = async () => {
@@ -17,55 +26,40 @@ const Home = () => {
       return;
     }
 
-    setLoading(true); // Start loading
-    setMessage(''); // Clear any previous messages
+    if (!selectedFile) {
+      setMessage('Please select an image file.');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+
+    const formData = new FormData();
+    formData.append('text_prompt', textPrompt);
+    formData.append('image', selectedFile);
 
     try {
-      // Post the text prompt to the FastAPI backend
-      const response = await axios.post('http://127.0.0.1:8000/generate', {
-        text_prompt: textPrompt,
+      const response = await axios.post('http://127.0.0.1:8000/generate', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       console.log('Response:', response.data);
-
-      // WebSocket for real-time progress
-      const ws = new WebSocket('ws://127.0.0.1:8188/ws?clientId=your_client_id'); // Replace with your WebSocket client ID
-
-      ws.onopen = () => {
-        console.log('WebSocket connection opened');
-      };
-
-      ws.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        if (message.type === 'executing') {
-          const progress = message.data.progress; // Get progress from server response
-          setProgress(progress); // Update progress
-          if (progress === 100) {
-            ws.close(); // Close WebSocket when progress is 100%
-          }
-        }
-      };
-
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-        setLoading(false); // Stop loading
-        setMessage('The site has been successfully generated.');
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-        setLoading(false); // Stop loading
-        setMessage('An error occurred while generating the site. Please try again.');
-      };
+      setMessage('The site has been successfully generated.');
     } catch (error) {
       console.error('Error:', error);
-      setLoading(false); // Stop loading
       setMessage('An error occurred while generating the site. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
+      <Head>
+        <title>Microsite Generator</title>
+      </Head>
       <main className="text-center mt-20 space-y-4">
         <h1 className="text-6xl">Microsite Generator</h1>
 
@@ -77,31 +71,23 @@ const Home = () => {
           className="border border-gray-300 p-2 rounded"
         />
 
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={handleFileSelection}
+          className="border border-gray-300 p-2 rounded"
+        />
+
         <button
           onClick={handlePromptSubmit}
           className="ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          disabled={loading} // Disable the button while loading
+          disabled={loading}
         >
           {loading ? 'Generating...' : 'Generate a Microsite'}
         </button>
 
-        {/* Display the progress bar and message */}
-        <div className="w-full bg-gray-300 rounded-full h-6 mt-4">
-          <div
-            className="bg-green-500 h-6 rounded-full"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-        <p className="mt-4 text-center" id="progress-text">
-          Progress: {progress}%
-        </p>
-
-        {/* Display success or error message */}
         {message && (
-          <div
-            className={`mt-4 p-4 rounded ${loading ? 'text-gray-500' : 'text-green-600'
-              }`}
-          >
+          <div className="mt-4 p-4 rounded text-green-600">
             {message}
           </div>
         )}
