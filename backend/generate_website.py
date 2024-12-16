@@ -110,6 +110,9 @@ def generate_html():
                 padding: 0;
                 background-color: {colors['background']};
                 color: {colors['text']};
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
             }}
             header {{
                 background: {colors['header']};
@@ -122,29 +125,28 @@ def generate_html():
                 font-size: 2.5em;
             }}
             main {{
+                flex: 1;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
                 padding: 20px;
                 background-color: {colors['background']};
             }}
             section {{
-                padding: 20px;
-                margin: 10px auto;
                 background: #fff;
                 border-radius: 5px;
-                max-width: 800px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                padding: 20px;
             }}
             section h2 {{
                 color: {colors['header']};
             }}
-            .image-section {{
-                text-align: center;
-            }}
             .image-section img {{
                 max-width: 100%;
                 height: auto;
-                margin: 10px 0;
-                border: 1px solid #ccc;
+                margin-top: 10px;
                 border-radius: 5px;
+                border: 1px solid #ccc;
             }}
             footer {{
                 text-align: center;
