@@ -1482,16 +1482,6 @@
       "title": "Save Text File"
     }
   },
-  "241": {
-    "inputs": {
-      "image": "blakka.jpg",
-      "upload": "image"
-    },
-    "class_type": "LoadImage",
-    "_meta": {
-      "title": "Load Image"
-    }
-  },
   "242": {
     "inputs": {
       "ckpt_name": "v1-5-pruned.safetensors"
@@ -1529,7 +1519,7 @@
         1
       ],
       "image": [
-        "241",
+        "254",
         0
       ]
     },
@@ -1569,6 +1559,16 @@
     "class_type": "CLIPTextEncode",
     "_meta": {
       "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "254": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
     }
   }
 }

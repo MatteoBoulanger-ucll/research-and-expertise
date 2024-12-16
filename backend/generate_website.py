@@ -3,14 +3,22 @@ import os
 # Path to the output folder where your content is stored
 output_folder = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\output\Research"
 
-# Folders and text files to check
+# Files to read
 text_files = [
-    "Header_0001.txt",
-    "Hex_0001.txt",
-    "Products0001.txt",
-    "Promo_0001.txt",
-    "Recap_0001.txt"
+    "Header_0001.txt",   # Will be used in hero section
+    "Hex_0001.txt",      # Used for colors only
+    "Products0001.txt",  # Will be a products section
+    "Promo_0001.txt",    # Will be a promo section
+    "Recap_0001.txt"     # Will be a recap section
 ]
+
+# We'll map these text files to specific sections of the page for clarity.
+section_map = {
+    "Header_0001.txt": "header_text",  # main hero headline
+    "Products0001.txt": "products",
+    "Promo_0001.txt": "promo",
+    "Recap_0001.txt": "recap"
+}
 
 image_folders = [
     "Banner", "Logo", "Pallete", "Rndm", "Rndm2", "Rndm3", "Rndm4"
@@ -27,41 +35,26 @@ image_names = {
     "Rndm4": "Rndm0001.png",
 }
 
-# Function to read text files and return the content
-
-
 def read_text_file(file_path):
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read().strip()
-            return content if content else "misgenerated"  # Return "misgenerated" if empty
+            return content if content else "misgenerated"
     except FileNotFoundError:
-        return "misgenerated"  # Return "misgenerated" if the file is not found
-
-
-# Function to get the first image file path from a folder
-
+        return "misgenerated"
 
 def get_image_path(folder_name):
     folder_path = os.path.join(output_folder, "Pictures", folder_name)
     image_name = image_names.get(folder_name)
     image_path = os.path.join(folder_path, image_name)
 
-    # Check if the image exists and return the path, else return an empty string
     if os.path.exists(image_path):
-        # Replace backslashes with forward slashes for HTML
         return image_path.replace(os.sep, "/")
-    return "misgenerated"  # Return "misgenerated" if the image is not found
-
-
-# Function to extract colors from Hex_0001.txt
-
+    return "misgenerated"
 
 def get_colors():
     hex_file_path = os.path.join(output_folder, "text", "Hex_0001.txt")
     hex_content = read_text_file(hex_file_path)
-
-    # Default colors if file is empty or missing
     default_colors = {
         "background": "#f4f4f4",
         "text": "#333",
@@ -88,19 +81,33 @@ def get_colors():
     except IndexError:
         return default_colors
 
-
-# Function to generate the HTML content
-
-
 def generate_html():
     colors = get_colors()
 
+    # Read text content
+    text_content_map = {}
+    for txt in text_files:
+        path = os.path.join(output_folder, "text", txt)
+        text_content_map[txt] = read_text_file(path)
+
+    # Get images
+    banner_path = get_image_path("Banner")
+    logo_path = get_image_path("Logo")
+    pallete_path = get_image_path("Pallete")
+    rndm_images = [get_image_path(f) for f in ["Rndm", "Rndm2", "Rndm3", "Rndm4"]]
+
+    header_text = text_content_map.get("Header_0001.txt", "Generated Microsite")
+    products_text = text_content_map.get("Products0001.txt", "misgenerated")
+    promo_text = text_content_map.get("Promo_0001.txt", "misgenerated")
+    recap_text = text_content_map.get("Recap_0001.txt", "misgenerated")
+
+    # Begin HTML
     html_content = f"""
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Generated Microsite</title>
         <style>
             body {{
@@ -117,102 +124,182 @@ def generate_html():
             header {{
                 background: {colors['header']};
                 color: {colors['header_text']};
-                padding: 20px 10px;
-                text-align: center;
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }}
+            header .logo {{
+                display: flex;
+                align-items: center;
+            }}
+            header .logo img {{
+                height: 50px;
+                margin-right: 10px;
             }}
             header h1 {{
                 margin: 0;
+                font-size: 1.8em;
+            }}
+
+            .hero {{
+                position: relative;
+                text-align: center;
+                color: {colors['header_text']};
+            }}
+            .hero .banner-img {{
+                width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+                display: block;
+            }}
+            .hero .hero-text {{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.4);
+                padding: 20px;
+                border-radius: 5px;
+            }}
+            .hero .hero-text h2 {{
+                margin: 0;
                 font-size: 2.5em;
             }}
+
             main {{
                 flex: 1;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
                 padding: 20px;
-                background-color: {colors['background']};
+                max-width: 1200px;
+                margin: 0 auto;
             }}
             section {{
                 background: #fff;
                 border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
                 padding: 20px;
+                margin-bottom: 20px;
             }}
             section h2 {{
                 color: {colors['header']};
+                margin-top: 0;
             }}
-            .image-section img {{
+            .products-section {{
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+            }}
+            .products-section .text {{
+                flex: 1;
+                min-width: 300px;
+                margin-right: 20px;
+            }}
+            .products-section .image {{
+                flex: 1;
+                min-width: 300px;
+            }}
+            .products-section .image img {{
                 max-width: 100%;
                 height: auto;
-                margin-top: 10px;
                 border-radius: 5px;
                 border: 1px solid #ccc;
             }}
+
+            .gallery {{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }}
+            .gallery img {{
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }}
+
             footer {{
                 text-align: center;
                 padding: 10px;
                 background: {colors['footer']};
                 color: {colors['footer_text']};
-                margin-top: 20px;
             }}
         </style>
     </head>
     <body>
-        <header>
-            <h1>Generated Microsite</h1>
-        </header>
-        <main>
     """
 
-    # Add text sections
-    for text_file in text_files:
-        text_path = os.path.join(output_folder, "text", text_file)
-        text_content = read_text_file(text_path)
-        html_content += f"""
-        <section>
-            <h2>{text_file.replace('_', ' ').replace('.txt', '')}</h2>
-            <p>{text_content}</p>
-        </section>
-        """
+    # HEADER
+    html_content += "<header>"
+    html_content += "<div class='logo'>"
+    if logo_path != "misgenerated":
+        html_content += f"<img src='file:///{logo_path}' alt='Logo' />"
+    html_content += "<h1>Generated Microsite</h1>"
+    html_content += "</div>"
+    html_content += "</header>"
 
-    # Add image sections
-    for folder_name in image_folders:
-        image_path = get_image_path(folder_name)
-        if image_path != "misgenerated":  # Only add image if the path is valid
-            html_content += f"""
-            <section class="image-section">
-                <h2>{folder_name}</h2>
-                <img src="file:///{image_path}" alt="{folder_name}" />
-            </section>
-            """
-        else:
-            html_content += f"""
-            <section>
-                <h2>{folder_name}</h2>
-                <p>misgenerated</p>
-            </section>
-            """
+    # HERO SECTION (Banner + Header text)
+    html_content += "<div class='hero'>"
+    if banner_path != "misgenerated":
+        html_content += f"<img src='file:///{banner_path}' alt='Banner' class='banner-img'/>"
+    html_content += f"<div class='hero-text'><h2>{header_text}</h2></div>"
+    html_content += "</div>"
 
-    # Add footer
+    # MAIN CONTENT
+    html_content += "<main>"
+
+    # Products section with Pallete image if available
+    html_content += "<section class='products-section'>"
+    html_content += "<div class='text'>"
+    html_content += "<h2>Products</h2>"
+    html_content += f"<p>{products_text}</p>"
+    html_content += "</div>"
+    if pallete_path != "misgenerated":
+        html_content += "<div class='image'>"
+        html_content += f"<img src='file:///{pallete_path}' alt='Pallete' />"
+        html_content += "</div>"
+    html_content += "</section>"
+
+    # Promo Section
+    html_content += "<section>"
+    html_content += "<h2>Promo</h2>"
+    html_content += f"<p>{promo_text}</p>"
+    html_content += "</section>"
+
+    # Recap Section
+    html_content += "<section>"
+    html_content += "<h2>Recap</h2>"
+    html_content += f"<p>{recap_text}</p>"
+    html_content += "</section>"
+
+    # Gallery of Rndm images
+    gallery_images = [img for img in rndm_images if img != "misgenerated"]
+    if gallery_images:
+        html_content += "<section>"
+        html_content += "<h2>Gallery</h2>"
+        html_content += "<div class='gallery'>"
+        for img_path in gallery_images:
+            html_content += f"<img src='file:///{img_path}' alt='Gallery Image'/>"
+        html_content += "</div>"
+        html_content += "</section>"
+
+    html_content += "</main>"
+
+    # FOOTER
     html_content += f"""
-        </main>
-        <footer>
-            <p>&copy; 2024 Generated Microsite. All Rights Reserved.</p>
-        </footer>
+    <footer>
+        <p>&copy; 2024 Generated Microsite. All Rights Reserved.</p>
+    </footer>
     </body>
     </html>
     """
-
     return html_content
-
 
 # Path to save the generated HTML file
 html_output_path = os.path.join(output_folder, "generated_microsite.html")
 
-# Generate the HTML content and save it
+# Generate and save HTML
 html_content = generate_html()
-
-with open(html_output_path, 'w') as file:
+with open(html_output_path, 'w', encoding='utf-8') as file:
     file.write(html_content)
 
 print(f"Generated HTML file saved at: {html_output_path}")
