@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
 import axios from 'axios';
+import Header from '@/components/header';
 
 const Home: React.FC = () => {
   const [textPrompt, setTextPrompt] = useState('');
@@ -60,6 +61,8 @@ const Home: React.FC = () => {
       <Head>
         <title>Microsite Generator</title>
       </Head>
+      <Header></Header>
+
       <main className="text-center mt-20 space-y-4">
         <h1 className="text-6xl">Microsite Generator</h1>
 

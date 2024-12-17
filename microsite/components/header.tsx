@@ -9,8 +9,8 @@ const Header: React.FC = () => {
           <Link href="/" className="text-lg text-blue-600 hover:text-blue-800">
             Home
           </Link>
-          <Link href="/generated" className="text-lg text-blue-600 hover:text-blue-800">
-            Generated Microsite
+          <Link href="/select-images" className="text-lg text-blue-600 hover:text-blue-800">
+            picture chooser
           </Link>
         </nav>
       </div>

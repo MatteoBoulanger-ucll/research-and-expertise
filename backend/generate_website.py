@@ -1,39 +1,31 @@
 import os
+import json
 
 # Path to the output folder where your content is stored
 output_folder = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\output\Research"
+selected_images_path = os.path.join(output_folder, "selected_images.json")
 
-# Files to read
+# Folders and text files to check
 text_files = [
-    "Header_0001.txt",   # Will be used in hero section
-    "Hex_0001.txt",      # Used for colors only
-    "Products0001.txt",  # Will be a products section
-    "Promo_0001.txt",    # Will be a promo section
-    "Recap_0001.txt"     # Will be a recap section
+    "Header_0001.txt",
+    "Hex_0001.txt",
+    "Products0001.txt",
+    "Promo_0001.txt",
+    "Recap_0001.txt"
 ]
-
-# We'll map these text files to specific sections of the page for clarity.
-section_map = {
-    "Header_0001.txt": "header_text",  # main hero headline
-    "Products0001.txt": "products",
-    "Promo_0001.txt": "promo",
-    "Recap_0001.txt": "recap"
-}
 
 image_folders = [
     "Banner", "Logo", "Pallete", "Rndm", "Rndm2", "Rndm3", "Rndm4"
 ]
 
-# Define image names for each folder
-image_names = {
-    "Banner": "Ban0001.png",
-    "Logo": "Log0001.png",
-    "Pallete": "Pal0001.png",
-    "Rndm": "Rndm0001.png",
-    "Rndm2": "Rndm0001.png",
-    "Rndm3": "Rndm0001.png",
-    "Rndm4": "Rndm0001.png",
-}
+# Attempt to read chosen images from selected_images.json
+chosen_images = {}
+if os.path.exists(selected_images_path):
+    with open(selected_images_path, 'r', encoding='utf-8') as f:
+        chosen_images = json.load(f)
+else:
+    # If no file, default to misgenerated
+    chosen_images = {folder: "misgenerated" for folder in image_folders}
 
 def read_text_file(file_path):
     try:
@@ -45,7 +37,10 @@ def read_text_file(file_path):
 
 def get_image_path(folder_name):
     folder_path = os.path.join(output_folder, "Pictures", folder_name)
-    image_name = image_names.get(folder_name)
+    image_name = chosen_images.get(folder_name, "misgenerated")
+    if image_name == "misgenerated":
+        return "misgenerated"
+
     image_path = os.path.join(folder_path, image_name)
 
     if os.path.exists(image_path):
@@ -84,24 +79,29 @@ def get_colors():
 def generate_html():
     colors = get_colors()
 
-    # Read text content
-    text_content_map = {}
+    # Text content
+    text_contents = {}
     for txt in text_files:
-        path = os.path.join(output_folder, "text", txt)
-        text_content_map[txt] = read_text_file(path)
+        text_path = os.path.join(output_folder, "text", txt)
+        text_contents[txt] = read_text_file(text_path)
 
-    # Get images
+    header_text = text_contents.get("Header_0001.txt", "misgenerated")
+    products_text = text_contents.get("Products0001.txt", "misgenerated")
+    promo_text = text_contents.get("Promo_0001.txt", "misgenerated")
+    recap_text = text_contents.get("Recap_0001.txt", "misgenerated")
+
     banner_path = get_image_path("Banner")
     logo_path = get_image_path("Logo")
     pallete_path = get_image_path("Pallete")
-    rndm_images = [get_image_path(f) for f in ["Rndm", "Rndm2", "Rndm3", "Rndm4"]]
+    rndm_images = [
+        get_image_path("Rndm"),
+        get_image_path("Rndm2"),
+        get_image_path("Rndm3"),
+        get_image_path("Rndm4")
+    ]
+    rndm_images = [img for img in rndm_images if img != "misgenerated"]
 
-    header_text = text_content_map.get("Header_0001.txt", "Generated Microsite")
-    products_text = text_content_map.get("Products0001.txt", "misgenerated")
-    promo_text = text_content_map.get("Promo_0001.txt", "misgenerated")
-    recap_text = text_content_map.get("Recap_0001.txt", "misgenerated")
-
-    # Begin HTML
+    # Same improved HTML layout as previously given:
     html_content = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -272,12 +272,11 @@ def generate_html():
     html_content += "</section>"
 
     # Gallery of Rndm images
-    gallery_images = [img for img in rndm_images if img != "misgenerated"]
-    if gallery_images:
+    if rndm_images:
         html_content += "<section>"
         html_content += "<h2>Gallery</h2>"
         html_content += "<div class='gallery'>"
-        for img_path in gallery_images:
+        for img_path in rndm_images:
             html_content += f"<img src='file:///{img_path}' alt='Gallery Image'/>"
         html_content += "</div>"
         html_content += "</section>"
@@ -294,10 +293,7 @@ def generate_html():
     """
     return html_content
 
-# Path to save the generated HTML file
 html_output_path = os.path.join(output_folder, "generated_microsite.html")
-
-# Generate and save HTML
 html_content = generate_html()
 with open(html_output_path, 'w', encoding='utf-8') as file:
     file.write(html_content)
