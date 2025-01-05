@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException, File, UploadFile, Form
+import re
+from fastapi import FastAPI, HTTPException, File, Query, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import subprocess
@@ -76,20 +77,30 @@ def list_images():
     return images_data
 
 @app.post("/finalize")
-async def finalize(selected_images: dict):
+async def finalize(final_data: dict):
     """
-    Receives a JSON dict like:
-      {
-        "Banner": "banner1.png",
-        "Logo": "logo2.jpg",
-        ...
-      }
-    Saves it to selected_images.json, then runs generate_website.py.
+    final_data structure:
+    {
+      "images": { "Banner": "banner.png", ... },
+      "texts":  { "Header": "Header_0002.txt", "Promo": "Promo_0003.txt", ... }
+    }
     """
-    selection_path = os.path.join(OUTPUT_BASE_PATH, "selected_images.json")
-    with open(selection_path, "w", encoding="utf-8") as f:
-        json.dump(selected_images, f, ensure_ascii=False, indent=4)
+    images = final_data.get("images", {})
+    texts  = final_data.get("texts", {})
 
+    # Save them all in one JSON file (or do separately if you prefer).
+    # Example: store at "selected_data.json"
+    selection_path = os.path.join(OUTPUT_BASE_PATH, "selected_data.json")
+    with open(selection_path, "w", encoding="utf-8") as f:
+        json.dump({"images": images, "texts": texts}, f, ensure_ascii=False, indent=4)
+
+    # If your generate_website.py still expects "selected_images.json" for images:
+    #   replicate just the images portion as well:
+    old_selection_path = os.path.join(OUTPUT_BASE_PATH, "selected_images.json")
+    with open(old_selection_path, "w", encoding="utf-8") as f:
+        json.dump(images, f, ensure_ascii=False, indent=4)
+
+    # Now run generate_website.py so the microsite is built
     generate_website_result = subprocess.run(
         ["python", "generate_website.py"],
         capture_output=True,
@@ -103,8 +114,9 @@ async def finalize(selected_images: dict):
         )
 
     return {
-        "message": "Final microsite generated with your chosen images."
+        "message": "Final microsite generated with your chosen images and text."
     }
+
 
 @app.post("/update-text")
 async def update_text(file_name: str = Form(...), content: str = Form(...)):
@@ -138,3 +150,48 @@ async def update_text(file_name: str = Form(...), content: str = Form(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating file: {str(e)}")
+
+@app.get("/text-files")
+def list_text_files():
+    text_folder = os.path.join(OUTPUT_BASE_PATH, "text")
+    if not os.path.exists(text_folder):
+        return {}
+
+    # Regex that matches e.g. "Products_0001.txt" or "Products0001.txt"
+    # Capturing group(1) = "Products"
+    # Capturing group(2) = "0001"
+    pattern = re.compile(r"^([A-Za-z]+)_?(\d{4})\.txt$", re.IGNORECASE)
+
+    all_texts = {}
+
+    for fname in os.listdir(text_folder):
+        if fname.lower().endswith(".txt"):
+            match = pattern.match(fname)
+            if match:
+                # e.g. "Products_0001.txt" => group(1)="Products", group(2)="0001"
+                prefix = match.group(1)  # "Products"
+            else:
+                # Fallback: if it doesn't match e.g. "HexSomething.txt", or "Recap_abc.txt"
+                # you can handle however you want. For now let's just remove extension
+                # and use up to first underscore or entire name.
+                name_no_ext = fname[:-4]  # remove ".txt"
+                prefix = name_no_ext.split("_")[0]  # old fallback
+            all_texts.setdefault(prefix, []).append(fname)
+
+    return all_texts
+
+@app.get("/text-content")
+def get_text_content(file_name: str = Query(...)):
+    """
+    Returns the full text content of the given TXT file, if it exists in the text folder.
+    Example request: GET /text-content?file_name=Header_0002.txt
+    """
+    text_folder = os.path.join(OUTPUT_BASE_PATH, "text")
+    file_path = os.path.join(text_folder, file_name)
+
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"Text file {file_name} not found.")
+
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    return {"content": content}

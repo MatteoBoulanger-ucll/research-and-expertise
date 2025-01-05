@@ -9,8 +9,8 @@ const Header: React.FC = () => {
           <Link href="/" className="text-lg text-blue-600 hover:text-blue-800">
             Home
           </Link>
-          <Link href="/select-images" className="text-lg text-blue-600 hover:text-blue-800">
-            picture chooser
+          <Link href="/editor" className="text-lg text-blue-600 hover:text-blue-800">
+            Editor
           </Link>
         </nav>
       </div>
