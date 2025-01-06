@@ -26,6 +26,8 @@ IMAGES_DIR = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\
 app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
 
 OUTPUT_BASE_PATH = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\output\Research"
+TEXT_FOLDER = os.path.join(OUTPUT_BASE_PATH, "text")
+
 PICTURES_PATH = os.path.join(OUTPUT_BASE_PATH, "Pictures")
 
 IMAGE_FOLDERS = [
@@ -77,45 +79,41 @@ def list_images():
     return images_data
 
 @app.post("/finalize")
-async def finalize(final_data: dict):
+def finalize(final_data: dict):
     """
-    final_data structure:
+    final_data might look like:
     {
-      "images": { "Banner": "banner.png", ... },
-      "texts":  { "Header": "Header_0002.txt", "Promo": "Promo_0003.txt", ... }
+      "images": { ... },
+      "texts": { ... },
+      "selected_hex": ["#a26350","#9d7986",...,"#94b1c8"]
     }
     """
     images = final_data.get("images", {})
     texts  = final_data.get("texts", {})
+    chosen_hex = final_data.get("selected_hex", [])
 
-    # Save them all in one JSON file (or do separately if you prefer).
-    # Example: store at "selected_data.json"
     selection_path = os.path.join(OUTPUT_BASE_PATH, "selected_data.json")
-    with open(selection_path, "w", encoding="utf-8") as f:
-        json.dump({"images": images, "texts": texts}, f, ensure_ascii=False, indent=4)
+    data_to_save = {
+        "images": images,
+        "texts": texts,
+        "selected_hex": chosen_hex
+    }
+    with open(selection_path, 'w', encoding='utf-8') as f:
+        json.dump(data_to_save, f, ensure_ascii=False, indent=4)
 
-    # If your generate_website.py still expects "selected_images.json" for images:
-    #   replicate just the images portion as well:
-    old_selection_path = os.path.join(OUTPUT_BASE_PATH, "selected_images.json")
-    with open(old_selection_path, "w", encoding="utf-8") as f:
-        json.dump(images, f, ensure_ascii=False, indent=4)
-
-    # Now run generate_website.py so the microsite is built
+    # Optionally run generate_website.py
     generate_website_result = subprocess.run(
         ["python", "generate_website.py"],
         capture_output=True,
         text=True
     )
-
     if generate_website_result.returncode != 0:
         raise HTTPException(
             status_code=500,
             detail=f"Error running generate_website.py: {generate_website_result.stderr}"
         )
 
-    return {
-        "message": "Final microsite generated with your chosen images and text."
-    }
+    return {"message": "Final microsite generated with images, text, and chosen hex scheme."}
 
 
 @app.post("/update-text")
@@ -195,3 +193,40 @@ def get_text_content(file_name: str = Query(...)):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     return {"content": content}
+
+@app.get("/hex-schemes")
+def get_hex_schemes():
+    """
+    Reads Hex_0001.txt from TEXT_FOLDER, 
+    splits by '---', and returns each chunk as an array of lines (hex codes).
+    """
+    hex_file_path = os.path.join(TEXT_FOLDER, "Hex_0001.txt")
+    if not os.path.exists(hex_file_path):
+        return []  # or raise HTTPException(status_code=404, detail="Hex_0001.txt not found")
+
+    with open(hex_file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Split on '---'
+    chunks = content.split('---')
+    all_schemes = []
+    for chunk in chunks:
+        # Gather non-blank lines
+        lines = [line.strip() for line in chunk.splitlines() if line.strip()]
+        if lines:
+            all_schemes.append(lines)
+
+    # So if your file looks like:
+    # #a26350
+    # #9d7986
+    # ...
+    # #94b1c8
+    # ---
+    # #ba7e7e
+    # ...
+    # Then all_schemes = [
+    #   ["#a26350","#9d7986",...,"#94b1c8"],
+    #   ["#ba7e7e","#a6b055",...,"#a4c6d5"],
+    #   ...
+    # ]
+    return all_schemes

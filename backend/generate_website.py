@@ -5,58 +5,61 @@ import json
 OUTPUT_FOLDER = r"C:\Users\Jornick\Documents\comf\ComfyUI_windows_portable\ComfyUI\output\Research"
 HTML_OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, "generated_microsite.html")
 
-# Primary new JSON file with "images" and "texts"
+# The new data file that has images, texts, selected_hex
 SELECTED_DATA_PATH = os.path.join(OUTPUT_FOLDER, "selected_data.json")
 
-# (Optional) Old images JSON for fallback
-OLD_SELECTED_IMAGES_PATH = os.path.join(OUTPUT_FOLDER, "selected_images.json")
-
-# The folder where .txt files are stored
+# The text folder where the user-chosen .txt files live
 TEXT_FOLDER = os.path.join(OUTPUT_FOLDER, "text")
 
+# (Optional) Old fallback for images only, if needed
+OLD_SELECTED_IMAGES_PATH = os.path.join(OUTPUT_FOLDER, "selected_images.json")
 
-def read_text_file(filepath: str) -> str:
-    """Safely read a text file or return 'misgenerated' on error."""
+def read_text_file(file_path: str) -> str:
+    """
+    Safely read text from a file, returning 'misgenerated' if missing or empty.
+    """
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read().strip()
             return content if content else "misgenerated"
     except FileNotFoundError:
         return "misgenerated"
 
-
 def load_selected_data():
     """
-    Load the new 'selected_data.json' with structure:
-    {
-      "images": { "Banner": "...", "Logo": "...", ... },
-      "texts": { "Header": "...", "Hex": "...", "Products": "...", "Promo": "...", "Recap": "..." }
-    }
-    For backward compatibility, if it doesn't exist, try old selected_images.json for images.
+    Attempts to load 'selected_data.json' with structure:
+      {
+        "images": { "Banner": "...", ... },
+        "texts":  { "Header": "...", "Products": "...", ... },
+        "selected_hex": ["#a26350", "#9d7986", ...]  // array of lines from a chunk in Hex_0001.txt
+      }
+    Falls back to old images file if needed (for backward compatibility).
+    Returns (chosen_images, chosen_texts, chosen_hex_lines).
     """
     chosen_images = {}
     chosen_texts = {}
+    chosen_hex = []  # an array of lines (each a hex like '#a26350')
 
     if os.path.exists(SELECTED_DATA_PATH):
         with open(SELECTED_DATA_PATH, 'r', encoding='utf-8') as f:
             data = json.load(f)
         chosen_images = data.get("images", {})
         chosen_texts = data.get("texts", {})
+        chosen_hex = data.get("selected_hex", [])
     else:
-        # Fallback to old selected_images.json (only images)
+        # If user never used new Editor, fallback to old selected_images.json
         if os.path.exists(OLD_SELECTED_IMAGES_PATH):
             with open(OLD_SELECTED_IMAGES_PATH, 'r', encoding='utf-8') as f:
                 chosen_images = json.load(f)
         # No text picks => empty
-        chosen_texts = {}
+        # No hex picks => empty
 
-    return chosen_images, chosen_texts
-
+    return chosen_images, chosen_texts, chosen_hex
 
 def get_image_path(chosen_images: dict, folder_name: str) -> str:
     """
-    Return file:/// path to the chosen image for `folder_name`, or "misgenerated" if not set.
-    The images are stored in OUTPUT_FOLDER/Pictures/<folder_name>/<file>.
+    Return file:///-style path for the chosen image in `folder_name`, or 'misgenerated'.
+    Example: chosen_images.get('Banner') => 'banner1.png'
     """
     image_name = chosen_images.get(folder_name, "misgenerated")
     if image_name == "misgenerated":
@@ -64,18 +67,17 @@ def get_image_path(chosen_images: dict, folder_name: str) -> str:
 
     folder_path = os.path.join(OUTPUT_FOLDER, "Pictures", folder_name)
     image_path = os.path.join(folder_path, image_name)
-
     if os.path.exists(image_path):
+        # Convert backslashes -> forward slashes, prepend file:///
         return "file:///" + image_path.replace("\\", "/")
     else:
         return "misgenerated"
 
-
 def read_chosen_text(chosen_texts: dict, prefix: str) -> (str, str):
     """
-    If user chose e.g. 'Header': 'Header_0002.txt', 
-    then read that file and return (content, filename).
-    If not chosen or not found, return ("misgenerated", "misgenerated").
+    If user chose e.g. 'Products': 'Products0002.txt',
+    read that file, return (content, filename).
+    If not found, return ('misgenerated','misgenerated').
     """
     filename = chosen_texts.get(prefix, "misgenerated")
     if filename == "misgenerated":
@@ -84,15 +86,17 @@ def read_chosen_text(chosen_texts: dict, prefix: str) -> (str, str):
     file_path = os.path.join(TEXT_FOLDER, filename)
     if os.path.exists(file_path):
         content = read_text_file(file_path)
-        return (content, filename)
+        return content, filename
     else:
         return "misgenerated", "misgenerated"
 
-
-def get_colors(chosen_texts: dict) -> dict:
+def parse_hex_lines(chosen_hex: list) -> dict:
     """
-    If user picked a 'Hex' file in chosen_texts, use that for colors.
-    Otherwise default. If the file is missing or 'misgenerated', fallback to default.
+    Interpret the chosen hex lines (like 8 lines from one chunk).
+    We need 6 lines for:
+      background, text, header, header_text, footer, footer_text
+    If we have fewer than 6, fallback to defaults.
+    If we have more, the first 6 are used, ignoring extra lines.
     """
     default_colors = {
         "background": "#f4f4f4",
@@ -103,40 +107,34 @@ def get_colors(chosen_texts: dict) -> dict:
         "footer_text": "#ffffff"
     }
 
-    # Load the chosen "Hex" file content (if any).
-    hex_content, _ = read_chosen_text(chosen_texts, "Hex")
-    if hex_content == "misgenerated":
-        return default_colors
-
-    lines = hex_content.splitlines()
-    if len(lines) < 6:
+    if len(chosen_hex) < 6:
         return default_colors
 
     return {
-        "background": lines[0].strip(),
-        "text":       lines[1].strip(),
-        "header":     lines[2].strip(),
-        "header_text": lines[3].strip(),
-        "footer":     lines[4].strip(),
-        "footer_text": lines[5].strip()
+        "background": chosen_hex[0].strip(),
+        "text":       chosen_hex[1].strip(),
+        "header":     chosen_hex[2].strip(),
+        "header_text": chosen_hex[3].strip(),
+        "footer":     chosen_hex[4].strip(),
+        "footer_text": chosen_hex[5].strip()
     }
 
-
 def generate_html() -> str:
-    # 1) Load user picks
-    chosen_images, chosen_texts = load_selected_data()
+    # 1. Load user picks (images, texts, and chosen hex lines)
+    chosen_images, chosen_texts, chosen_hex = load_selected_data()
 
-    # 2) Colors from chosen "Hex"
-    colors = get_colors(chosen_texts)
+    # 2. Parse the chosen hex lines into color keys
+    colors = parse_hex_lines(chosen_hex)
 
-    # 3) Read text for each known prefix
+    # 3. For each text prefix, read the content & file name
     header_content, header_file = read_chosen_text(chosen_texts, "Header")
     products_content, products_file = read_chosen_text(chosen_texts, "Products")
     promo_content, promo_file = read_chosen_text(chosen_texts, "Promo")
     recap_content, recap_file = read_chosen_text(chosen_texts, "Recap")
-    # If you have other prefixes, read them similarly
+    # ... add more if you have other text sections (Hex, etc.), 
+    # though 'Hex' is used differently here.
 
-    # 4) Get image paths for each folder
+    # 4. For images, get their file:// path
     banner_path = get_image_path(chosen_images, "Banner")
     logo_path   = get_image_path(chosen_images, "Logo")
     pallete_path = get_image_path(chosen_images, "Pallete")
@@ -147,10 +145,9 @@ def generate_html() -> str:
         get_image_path(chosen_images, "Rndm3"),
         get_image_path(chosen_images, "Rndm4")
     ]
-    # Filter out any "misgenerated"
     rndm_images = [img for img in rndm_images if img != "misgenerated"]
 
-    # 5) Build the HTML (similar to your old code, but dynamically referencing chosen file names)
+    # 5. Build HTML with text-editing script
     html_output = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,34 +257,35 @@ def generate_html() -> str:
     </script>
 </head>
 <body>
+    <!-- HEADER -->
     <header>
         {"<img src='" + logo_path + "' alt='Logo'>" if logo_path != "misgenerated" else ""}
         <h1 id="header-text">{header_content}</h1>
-        {"<button class='edit-button' onclick=\"toggleEdit(this, 'header-text', '" + header_file + "')\">Edit</button>" 
-            if header_file != "misgenerated" else ""}
+        {"<button class='edit-button' onclick=\"toggleEdit(this, 'header-text', '" + header_file + "')\">Edit</button>"
+          if header_file != "misgenerated" else ""}
     </header>
 
     <main>
         <!-- BANNER SECTION -->
         <section id="banner-section">
-            {f"<img src='{banner_path}' alt='Banner' style='width: 100%; max-height: 300px;' />" 
-                if banner_path != "misgenerated" else ""}
+            {f"<img src='{banner_path}' alt='Banner' style='width: 100%; max-height: 300px;' />"
+             if banner_path != "misgenerated" else ""}
         </section>
 
         <!-- PRODUCTS -->
         <section id="products">
             {"<button class='edit-button' onclick=\"toggleEdit(this, 'products-text', '" + products_file + "')\">Edit</button>"
-                if products_file != "misgenerated" else ""}
+             if products_file != "misgenerated" else ""}
             <h2>Products</h2>
             <p id="products-text">{products_content}</p>
-            {f"<img src='{pallete_path}' alt='Pallete' style='max-width:300px; display:block; margin-top:10px;'/>"
-                if pallete_path != "misgenerated" else ""}
+            {f"<img src='{pallete_path}' alt='Pallete' style='max-width:300px; display:block; margin-top:10px;' />"
+             if pallete_path != "misgenerated" else ""}
         </section>
 
         <!-- PROMO -->
         <section id="promo">
             {"<button class='edit-button' onclick=\"toggleEdit(this, 'promo-text', '" + promo_file + "')\">Edit</button>"
-                if promo_file != "misgenerated" else ""}
+             if promo_file != "misgenerated" else ""}
             <h2>Promo</h2>
             <p id="promo-text">{promo_content}</p>
         </section>
@@ -295,25 +293,27 @@ def generate_html() -> str:
         <!-- RECAP -->
         <section id="recap">
             {"<button class='edit-button' onclick=\"toggleEdit(this, 'recap-text', '" + recap_file + "')\">Edit</button>"
-                if recap_file != "misgenerated" else ""}
+             if recap_file != "misgenerated" else ""}
             <h2>Recap</h2>
             <p id="recap-text">{recap_content}</p>
         </section>
 
         <!-- RANDOM IMAGE GALLERY -->
-        {f"<section><h2>Gallery</h2><div class='gallery'>" + "".join(
-            f"<img src='{img}' alt='Random'>" for img in rndm_images) + "</div></section>"
-            if rndm_images else ""}
+        {f"<section><h2>Gallery</h2><div class='gallery'>" + 
+           "".join(f"<img src='{img}' alt='Random'>" for img in rndm_images) + 
+           "</div></section>" 
+         if rndm_images else ""}
     </main>
 
     <footer>&copy; 2024 Generated Microsite</footer>
 </body>
-</html>"""
+</html>
+"""
     return html_output
 
-
 if __name__ == "__main__":
-    html_output = generate_html()
+    # Generate and write the HTML file
+    final_html = generate_html()
     with open(HTML_OUTPUT_PATH, 'w', encoding='utf-8') as f:
-        f.write(html_output)
+        f.write(final_html)
     print(f"Generated microsite saved at {HTML_OUTPUT_PATH}")
